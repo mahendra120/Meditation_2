@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Meditation"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Start"
             android:exported="false"
             android:label="@string/title_activity_signip"
             android:theme="@style/Theme.Meditation" />
@@ -23,7 +23,7 @@
             android:label="@string/title_activity_start"
             android:theme="@style/Theme.Meditation" />
         <activity
-            android:name=".Start"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Meditation">
