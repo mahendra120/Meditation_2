@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Meditation</string>
+    <string name="title_activity_start">Start</string>
+    <string name="title_activity_signip">signip</string>
+</resources>
