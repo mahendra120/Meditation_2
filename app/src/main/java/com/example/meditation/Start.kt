@@ -58,7 +58,7 @@ class Start : ComponentActivity() {
     }
 
     @Composable
-//    @Preview(showSystemUi = true)
+    @Preview(showSystemUi = true)
     fun MyHome() {
         var currentRotation by remember { mutableStateOf(0f) }
         val rotation = remember { Animatable(currentRotation) }

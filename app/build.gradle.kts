@@ -61,6 +61,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("com.airbnb.android:lottie-compose:4.0.0")
-
+    implementation("com.google.android.exoplayer:exoplayer:2.19.1")
+    implementation ("androidx.media3:media3-exoplayer:1.3.1")
+    implementation ("androidx.media3:media3-ui:1.3.1")
 
 }

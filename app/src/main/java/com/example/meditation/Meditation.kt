@@ -1,5 +1,6 @@
 package com.example.meditation
 
+
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -18,15 +19,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,14 +47,17 @@ import kotlinx.coroutines.delay
 
 class Meditation : ComponentActivity() {
 
-    var secendtime by mutableStateOf(7f)
+    var secendtime by mutableFloatStateOf(7f)
     var mediaPlayer: MediaPlayer? = null
     var mediaPlayer2: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bell_song)
+        mediaPlayer2 = MediaPlayer.create(this, R.raw.main_meditation_song)
+
         setContent {
+            mediaPlayer2?.start()
             MyHome()
         }
     }
@@ -65,10 +68,8 @@ class Meditation : ComponentActivity() {
 
     fun MyHome() {
         //music play mate
-        mediaPlayer = MediaPlayer.create(this, R.raw.bell_song)
-        mediaPlayer2 = MediaPlayer.create(this, R.raw.main_meditation_song)
 
-        var currentTime by remember { mutableStateOf(0) }
+        var currentTime by remember { mutableIntStateOf(0) }
         val maxTime = 30 * 60
 
         //time show mate
@@ -82,7 +83,6 @@ class Meditation : ComponentActivity() {
         val minutes = currentTime / 60
         val seconds = currentTime % 60
         val timeText = String.format("%d:%02d", minutes, seconds)
-
 
         if (minutes == 7 || minutes == 12 || minutes == 15 || minutes == 18 || minutes == 21) {
             mediaPlayer?.start()
@@ -98,22 +98,13 @@ class Meditation : ComponentActivity() {
             if (minutes == 18) {
                 secendtime = 21f
             }
-        }
-
-        LaunchedEffect(minutes, seconds) {
-            // If time is between 6:58 and 7:07 (inclusive), pause the music
-            if ((minutes == 6 && seconds >= 58) || (minutes == 7 && seconds <= 7)||()||()) {
-                mediaPlayer2?.pause()
-            } else {
-                if (mediaPlayer2?.isPlaying == false) {
-                    mediaPlayer2?.start()
-                }
+            if (minutes == 21) {
+                secendtime = 30f
             }
         }
 
-
 // secendtime = minutes.toFloat()
-        var currentRotation by remember { mutableStateOf(0f) }
+        var currentRotation by remember { mutableFloatStateOf(0f) }
         val rotation = remember { Animatable(currentRotation) }
         LaunchedEffect(true) {
             rotation.animateTo(
@@ -131,19 +122,16 @@ class Meditation : ComponentActivity() {
                 .fillMaxSize()
                 .background(Color.Black)
         ) {
-            IconButton(
-                onClick = { finish() },
-                modifier = Modifier.padding(top = 80.dp, start = 5.dp)
-            )
-            {
-                Icon(
-                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(4.dp)
-                )
+            Button(
+                onClick = {
+                    finish()
+                    mediaPlayer?.pause()
+                    mediaPlayer2?.pause()
+                },
+                modifier = Modifier.padding(top = 5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
+            ) {
+                Text("Back", color = Color.White)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -158,26 +146,27 @@ class Meditation : ComponentActivity() {
                         .size(290.dp)
                         .rotate(currentRotation)
                 )
+                Text(text = "Close Your Eye", fontSize = 25.sp, color = Color.Gray)
             }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(bottom = 62.dp, start = 5.dp)
+                    .padding(bottom = 37.dp, start = 0.dp)
             ) {
                 Text(
                     text = timeText,
                     fontSize = 25.sp,
-                    color = Color.Gray,
+                    color = Color.White,
                     modifier = Modifier.padding(16.dp)
                 )
             }
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(bottom = 62.dp, end = 5.dp)
+                    .align(Alignment.BottomStart)
+                    .padding(bottom = 37.dp, start = 60.dp)
             ) {
                 Text(
-                    text = "${secendtime.toInt()}:00",
+                    text = " / ${secendtime.toInt()}:00",
                     fontSize = 25.sp,
                     color = Color.Gray,
                     modifier = Modifier.padding(16.dp)
@@ -186,7 +175,7 @@ class Meditation : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 630.dp)
+                    .padding(top = 710.dp)
                     .align(Alignment.BottomCenter)
             ) {
                 AnimatedPreloader()
@@ -207,7 +196,6 @@ class Meditation : ComponentActivity() {
             iterations = LottieConstants.IterateForever,
             isPlaying = true
         )
-
 
         LottieAnimation(
             composition = preloaderLottieComposition,

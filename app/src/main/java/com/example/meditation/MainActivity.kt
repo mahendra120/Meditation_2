@@ -7,10 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,6 +25,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -150,8 +153,8 @@ class MainActivity : ComponentActivity() {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 text = "Meditation",
-                fontSize = 30.sp,
-                color = Color(201, 201, 201, 255),
+                fontSize = 35.sp,
+                color = Color(255, 255, 255, 255),
                 fontFamily = customAppFontFamily,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -164,9 +167,9 @@ class MainActivity : ComponentActivity() {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 50.dp)
-                    .width(340.dp)
-                    .height(55.dp),
+                    .padding(bottom = 30.dp)
+                    .width(330.dp)
+                    .height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, color = Color.White)
             ) {
@@ -231,28 +234,45 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             } // Pranayam
-            items(yoga_pose.size) {
-                Text(
-                    "Asana",
-                    fontSize = 20.sp,
-                    color = Color.White.copy(.7f),
-                    modifier = Modifier.padding(top = 9.dp, start = 12.dp, bottom = 4.dp)
-                )
+            items(yoga_pose_Images.size) {
                 Column() {
                     Card(
                         modifier = Modifier
-                            .fillMaxSize()
                             .padding(10.dp)
-                            .width(50.dp)
-                            .height(210.dp)
+                            .width(140.dp)
+                            .height(195.dp), onClick = {
+                            var intent = Intent(this@MainActivity, Yogacard::class.java)
+                            startActivity(intent)
+                        }, colors = CardDefaults.cardColors(containerColor = Color.White.copy(.3f))
                     )
                     {
-                        Image(
-                            painter = painterResource(yoga_pose[it]),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.fillMaxSize()
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(yoga_pose_Images[it]),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillBounds,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(.8f)
+                                )
+                                Text(
+                                    YogaPoseName[it],
+                                    fontSize = 17.sp,
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .weight(.2f)
+                                        .padding(top = 5.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }

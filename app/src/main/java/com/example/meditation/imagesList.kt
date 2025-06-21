@@ -21,23 +21,27 @@ val Pranayam_Images = arrayListOf(
     R.drawable.murcha_pranayam,
 )
 
-val yoga_pose = arrayListOf(
+val yoga_pose_Images = arrayListOf(
     R.drawable.tadasana,
     R.drawable.vrikshasana,
-    R.drawable.trikonasana,
     R.drawable.virabhadrasana,
     R.drawable.utkatasana,
     R.drawable.natarajasana,
-    R.drawable.garudasana,
-    R.drawable.adho_mukha_svanasana,
     R.drawable.bhujangasana,
     R.drawable.dhanurasana,
-    R.drawable.ustrasana,
-    R.drawable.setu_bandhasana,
-    R.drawable.chakrasana,
-    R.drawable.paschimottanasana,
-    R.drawable.janushirasana,
-    R.drawable.ardha_matsyendrasana,
     R.drawable.halasana,
-    R.drawable.sarvangasana
+    R.drawable.sarvangasana,
+    R.drawable.setu_bandhasana,
+)
+val YogaPoseName = arrayListOf(
+    "Tadasana",
+    "Vrikshasana",
+    "Virabhadrasana",
+    "Utkatasana",
+    "Natarajasana",
+    "Bhujangasana?",
+    "Dhanurasana",
+    "Halasana",
+    "Sarvadaman",
+    "Setubandhasana"
 )
