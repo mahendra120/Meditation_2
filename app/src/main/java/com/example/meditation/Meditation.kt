@@ -1,6 +1,5 @@
 package com.example.meditation
 
-
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -17,8 +16,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -44,6 +46,9 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.LocalConfiguration
+
+
 
 class Meditation : ComponentActivity() {
 
@@ -66,8 +71,12 @@ class Meditation : ComponentActivity() {
     @Composable
     @Preview(showSystemUi = true)
 
+
     fun MyHome() {
         //music play mate
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
+        val screenWidth = configuration.screenWidthDp.dp
 
         var currentTime by remember { mutableIntStateOf(0) }
         val maxTime = 30 * 60
@@ -128,10 +137,10 @@ class Meditation : ComponentActivity() {
                     mediaPlayer?.pause()
                     mediaPlayer2?.pause()
                 },
-                modifier = Modifier.padding(top = 5.dp),
+                modifier = Modifier.padding(top = screenHeight * .08f).height(55.dp).width(95.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
             ) {
-                Text("Back", color = Color.White)
+                Text("Back", color = Color.White, fontSize = 18.sp)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -146,36 +155,37 @@ class Meditation : ComponentActivity() {
                         .size(290.dp)
                         .rotate(currentRotation)
                 )
-                Text(text = "Close Your Eye", fontSize = 25.sp, color = Color.Gray)
+                Text(text = "Close Your Eye",fontSize = 25.sp, color = Color.Gray)
             }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(bottom = 37.dp, start = 0.dp)
+                    .padding(bottom = screenWidth * .23f, start = 15.dp)
             ) {
                 Text(
                     text = timeText,
                     fontSize = 25.sp,
-                    color = Color.White,
-                    modifier = Modifier.padding(16.dp)
+                   color = Color.White,
+                    modifier = Modifier
                 )
             }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(bottom = 37.dp, start = 60.dp)
+                    .padding(bottom = screenWidth * .23f, start = 65.dp)
             ) {
                 Text(
                     text = " / ${secendtime.toInt()}:00",
                     fontSize = 25.sp,
                     color = Color.Gray,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier
                 )
             }
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 710.dp)
+                    .padding(top = screenHeight * 0.85f)
+                    .size(screenWidth * 0.6f)
                     .align(Alignment.BottomCenter)
             ) {
                 AnimatedPreloader()
@@ -185,6 +195,7 @@ class Meditation : ComponentActivity() {
 
     @Composable
     fun AnimatedPreloader(modifier: Modifier = Modifier) {
+
         val preloaderLottieComposition by rememberLottieComposition(
             LottieCompositionSpec.RawRes(
                 R.raw.music_1

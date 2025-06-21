@@ -18,6 +18,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -174,7 +179,7 @@ class MainActivity : ComponentActivity() {
                 border = BorderStroke(1.dp, color = Color.White)
             ) {
                 Text(
-                    text = "Let's BOOM",
+                    text = "Let's Begin",
                     fontFamily = customAppFontFamily,
                     color = Color.White,
                     fontSize = 22.sp
@@ -234,45 +239,60 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             } // Pranayam
-            items(yoga_pose_Images.size) {
-                Column() {
-                    Card(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .width(140.dp)
-                            .height(195.dp), onClick = {
-                            var intent = Intent(this@MainActivity, Yogacard::class.java)
-                            startActivity(intent)
-                        }, colors = CardDefaults.cardColors(containerColor = Color.White.copy(.3f))
-                    )
-                    {
-                        Box(
+            item {
+                Text(
+                    "Asana",
+                    fontSize = 20.sp,
+                    color = Color.White.copy(.7f),
+                    modifier = Modifier.padding(start = 12.dp)
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.height((200 * (yoga_pose_Images.size / 2)).dp)
+                ) {
+                    items(yoga_pose_Images.size) {
+                        Card(
                             modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                .padding(15.dp)
+                                .width(140.dp)
+                                .height(195.dp),
+                            onClick = {
+                                var intent = Intent(this@MainActivity, Yogacard::class.java)
+                                startActivity(intent)
+                            },
+                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(.3f))
+                        )
+                        {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
                             ) {
-                                Image(
-                                    painter = painterResource(yoga_pose_Images[it]),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillBounds,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .weight(.8f)
-                                )
-                                Text(
-                                    YogaPoseName[it],
-                                    fontSize = 17.sp,
-                                    color = Color.White,
-                                    modifier = Modifier
-                                        .weight(.2f)
-                                        .padding(top = 5.dp)
-                                )
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Image(
+                                        painter = painterResource(yoga_pose_Images[it]),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.FillBounds,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .weight(.8f)
+                                    )
+                                    Text(
+                                        YogaPoseName[it],
+                                        fontSize = 17.sp,
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .weight(.2f)
+                                            .padding(top = 9.dp)
+                                            .align(Alignment.CenterHorizontally)
+                                    )
+                                }
                             }
                         }
+
                     }
                 }
             }
