@@ -1,9 +1,12 @@
 package com.example.meditation
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,9 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -36,35 +36,55 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.example.meditation.ui.theme.customAppFontFamily
+import kotlin.system.exitProcess
 
 
 class MainActivity : ComponentActivity() {
-
     var page by mutableStateOf("meditation")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
-                MyBottombar()
-            }) { innerPadding ->
-                when (page) {
-                    "meditation" -> MeditationPage(innerPadding)
-                    "yoga" -> YogaPage(innerPadding)
-                    "profile" -> ProfilePage(innerPadding)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Transparent),
+                    containerColor = Color.Transparent,
+                    bottomBar = { MyBottombar() }
+                ) { innerPadding ->
+                    when (page) {
+                        "meditation" -> MeditationPage(innerPadding) // contains MyHomepage()
+                        "yoga" -> YogaPage(innerPadding)
+                        "profile" -> ProfilePage(innerPadding)
+                    }
                 }
             }
         }
@@ -73,18 +93,13 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun MeditationPage(innerPadding: PaddingValues) {
-        Image(
-            painter = painterResource(R.drawable.meditation_home),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+//                .padding(innerPadding)
         )
         {
+            BackgroundVideoPlayer()
             MyHomepage()
         }
     }
@@ -115,11 +130,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
+    // naviestion bar
     @Composable
     fun MyBottombar() {
         BottomAppBar(
-            containerColor = Color.Black
+            containerColor = Color.White.copy(.2f)
         ) {
             IconButton(onClick = {
                 page = "meditation"
@@ -155,10 +170,12 @@ class MainActivity : ComponentActivity() {
     @Composable
     @Preview
     fun MyHomepage() {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Text(
                 text = "Meditation",
-                fontSize = 35.sp,
+                fontSize = 38.sp,
                 color = Color(255, 255, 255, 255),
                 fontFamily = customAppFontFamily,
                 modifier = Modifier
@@ -169,20 +186,21 @@ class MainActivity : ComponentActivity() {
                 onClick = {
                     var intent = Intent(this@MainActivity, Meditation::class.java)
                     startActivity(intent)
+                    finish()
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 30.dp)
-                    .width(330.dp)
+                    .padding(bottom = 100.dp)
+                    .width(340.dp)
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                border = BorderStroke(1.dp, color = Color.White)
+                border = BorderStroke(2.dp, color = Color.White)
             ) {
                 Text(
-                    text = "Let's Begin",
+                    text = "Let's BOOM",
                     fontFamily = customAppFontFamily,
                     color = Color.White,
-                    fontSize = 22.sp
+                    fontSize = 23.sp
                 )
             }
         }
@@ -190,13 +208,21 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MyYoga() {
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
+        val screenWidth = configuration.screenWidthDp.dp
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
                 Text(
                     text = "Madras",
                     fontSize = 20.sp,
                     color = Color.White.copy(.7f),
-                    modifier = Modifier.padding(top = 60.dp, start = 15.dp, bottom = 5.dp)
+                    modifier = Modifier.padding(
+                        top = screenHeight * .02f,
+                        start = screenHeight * .02f,
+                        bottom = 5.dp
+                    )
                 )
                 LazyRow {
                     items(Mudra_Images.size) {
@@ -220,7 +246,10 @@ class MainActivity : ComponentActivity() {
                     "Pranayam",
                     fontSize = 20.sp,
                     color = Color.White.copy(.7f),
-                    modifier = Modifier.padding(top = 7.dp, start = 12.dp, bottom = 4.dp)
+                    modifier = Modifier.padding(
+                        top = screenHeight * .01f,
+                        start = screenHeight * .01f, bottom = 4.dp
+                    )
                 )
                 LazyRow {
                     items(Pranayam_Images.size) {
@@ -253,8 +282,8 @@ class MainActivity : ComponentActivity() {
                     items(yoga_pose_Images.size) {
                         Card(
                             modifier = Modifier
-                                .padding(15.dp)
-                                .width(140.dp)
+                                .padding(10.dp)
+                                .width(screenWidth * .25f)
                                 .height(195.dp),
                             onClick = {
                                 var intent = Intent(this@MainActivity, Yogacard::class.java)
@@ -304,4 +333,49 @@ class MainActivity : ComponentActivity() {
     fun MyProfile() {
 
     }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        finishAffinity()  // all activities close
+        exitProcess(0)    // app completely exit
+    }
+}
+
+@OptIn(UnstableApi::class)
+@Composable
+fun BackgroundVideoPlayer() {
+    val context = LocalContext.current
+
+    val exoPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            val videoUri =
+                Uri.parse("android.resource://${context.packageName}/${R.raw.home_page2}")
+            val mediaItem = MediaItem.fromUri(videoUri)
+            setMediaItem(mediaItem)
+            prepare()
+            playWhenReady = true
+            repeatMode = ExoPlayer.REPEAT_MODE_ONE
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    AndroidView(
+        factory = {
+            PlayerView(it).apply {
+                player = exoPlayer
+                useController = false
+                layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT
+                )
+                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    )
 }

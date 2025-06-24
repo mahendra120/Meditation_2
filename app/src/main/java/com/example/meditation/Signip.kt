@@ -1,20 +1,19 @@
 package com.example.meditation
 
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,19 +21,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,38 +49,25 @@ class signip : ComponentActivity() {
     @Composable
     @Preview(showSystemUi = true)
     fun Mybackpage() {
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
+        val screenWidth = configuration.screenWidthDp.dp
         Box(
             modifier = Modifier
                 .fillMaxSize()
         )
         {
-            Column {
-                IconButton(
-                    onClick = { finish() },
-                    modifier = Modifier.padding(top = 100.dp, bottom = 40.dp),
-                    colors = IconButtonDefaults.iconButtonColors(contentColor = Color.Transparent)
-                )
-                {
-                    Icon(
-                        Icons.Default.KeyboardArrowLeft,
-                        contentDescription = null,
-                        tint = Color.Black,
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
-                Text(
-                    text = "Signup",
-                    fontSize = 45.sp,
-                    fontFamily = customAppFontFamily,
-                    modifier = Modifier.padding(start = 25.dp)
-                )
-            }
+            Text(
+                text = "Signup",
+                fontSize = 45.sp,
+                fontFamily = customAppFontFamily,
+                modifier = Modifier.padding(start = screenHeight * .03f, top = screenHeight * .25f)
+            )
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth().padding(top = screenHeight * .42f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Spacer(modifier = Modifier.padding(bottom = 60.dp))
                 Button(
                     onClick = {
                         var intent = Intent(this@signip, MainActivity::class.java)
@@ -103,7 +85,7 @@ class signip : ComponentActivity() {
                             painter = painterResource(R.drawable.google),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(23.dp)
+                                .size(24.dp)
                                 .padding(top = 6.dp)
                         )
                         Spacer(modifier = Modifier.padding(8.dp))

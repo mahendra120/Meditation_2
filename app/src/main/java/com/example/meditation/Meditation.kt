@@ -1,6 +1,7 @@
 package com.example.meditation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,7 +47,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalConfiguration
-
 
 
 class Meditation : ComponentActivity() {
@@ -133,14 +132,15 @@ class Meditation : ComponentActivity() {
         ) {
             Button(
                 onClick = {
-                    finish()
                     mediaPlayer?.pause()
                     mediaPlayer2?.pause()
+                    val intent = Intent(this@Meditation, MainActivity::class.java)
+                    startActivity(intent)
                 },
-                modifier = Modifier.padding(top = screenHeight * .08f).height(55.dp).width(95.dp),
+                modifier = Modifier.padding(top = screenHeight * .03f).height(47.dp).width(100.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
             ) {
-                Text("Back", color = Color.White, fontSize = 18.sp)
+                Text("Back", color = Color.White, fontSize = 16.sp)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -172,7 +172,7 @@ class Meditation : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(bottom = screenWidth * .23f, start = 65.dp)
+                    .padding(bottom = screenWidth * .23f, start = 70.dp)
             ) {
                 Text(
                     text = " / ${secendtime.toInt()}:00",

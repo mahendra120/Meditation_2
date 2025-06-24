@@ -1,5 +1,7 @@
 package com.example.meditation
 
+import androidx.compose.foundation.layout.Row
+
 val Mudra_Images = arrayListOf(
     R.drawable.vayu_mudra,
     R.drawable.sury_mudra,
@@ -32,6 +34,9 @@ val yoga_pose_Images = arrayListOf(
     R.drawable.halasana,
     R.drawable.sarvangasana,
     R.drawable.setu_bandhasana,
+    R.drawable.adho_mukha_svanasana,
+    R.drawable.chakrasana,
+    R.drawable.paschimottanasana,
 )
 val YogaPoseName = arrayListOf(
     "Tadasana",
@@ -43,5 +48,8 @@ val YogaPoseName = arrayListOf(
     "Dhanurasana",
     "Halasana",
     "Sarvadaman",
-    "Setubandhasana"
+    "Setubandhasana",
+    "Adhomukhasana",
+    "Chakrasana",
+    "paschimottanasana"
 )
