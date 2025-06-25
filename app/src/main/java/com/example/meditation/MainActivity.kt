@@ -14,18 +14,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -53,7 +58,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.WindowCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -67,7 +71,6 @@ class MainActivity : ComponentActivity() {
     var page by mutableStateOf("meditation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             Box(
                 modifier = Modifier
@@ -124,6 +127,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black)
+                .padding(innerPadding)
         )
         {
             MyProfile()
@@ -168,7 +172,6 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    @Preview
     fun MyHomepage() {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -215,11 +218,20 @@ class MainActivity : ComponentActivity() {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
                 Text(
+                    text = "Yoga",
+                    fontSize = 35.sp, color = Color.White,
+                    fontFamily = customAppFontFamily,
+                    modifier = Modifier.padding(
+                        start = screenWidth * .35f,
+                        top = screenHeight * .02f
+                    )
+                )
+                Text(
                     text = "Madras",
                     fontSize = 20.sp,
-                    color = Color.White.copy(.7f),
+                    color = Color.White.copy(.7f), fontFamily = customAppFontFamily,
                     modifier = Modifier.padding(
-                        top = screenHeight * .02f,
+                        top = screenHeight * .01f,
                         start = screenHeight * .02f,
                         bottom = 5.dp
                     )
@@ -244,7 +256,7 @@ class MainActivity : ComponentActivity() {
             item {
                 Text(
                     "Pranayam",
-                    fontSize = 20.sp,
+                    fontSize = 20.sp, fontFamily = customAppFontFamily,
                     color = Color.White.copy(.7f),
                     modifier = Modifier.padding(
                         top = screenHeight * .01f,
@@ -271,7 +283,7 @@ class MainActivity : ComponentActivity() {
             item {
                 Text(
                     "Asana",
-                    fontSize = 20.sp,
+                    fontSize = 20.sp, fontFamily = customAppFontFamily,
                     color = Color.White.copy(.7f),
                     modifier = Modifier.padding(start = 12.dp)
                 )
@@ -312,7 +324,7 @@ class MainActivity : ComponentActivity() {
                                     Text(
                                         YogaPoseName[it],
                                         fontSize = 17.sp,
-                                        color = Color.White,
+                                        color = Color.White, fontFamily = customAppFontFamily,
                                         modifier = Modifier
                                             .weight(.2f)
                                             .padding(top = 9.dp)
@@ -324,14 +336,97 @@ class MainActivity : ComponentActivity() {
 
                     }
                 }
-            }
-        } // Asana
+            } // Asana
+        }
     }
 
 
     @Composable
+    @Preview(showSystemUi = true)
     fun MyProfile() {
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
+        val screenWidth = configuration.screenWidthDp.dp
+        LazyColumn {
+            item {
+                Text(
+                    text = "Profile",
+                    fontSize = 35.sp, color = Color.White,
+                    fontFamily = customAppFontFamily,
+                    modifier = Modifier.padding(
+                        start = screenWidth * .35f,
+                        top = screenHeight * .02f
+                    )
+                )
+                Row(modifier = Modifier.padding(top = 14.dp)) {
+                    Card(
+                        onClick = {},
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(.3f)
+                            .padding(
+                                top = screenHeight * .033f,
+                                start = screenHeight * .015f,
+                                end = screenHeight * .02f
+                            ),
+                        shape = (RoundedCornerShape(15.dp))
+                    )
+                    {
+                        Image(
+                            painter = painterResource(R.drawable.profile),
+                            contentDescription = null
+                        )
 
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(.5f)
+                            .padding(start = 2.dp)
+                    ) {
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
+
+                        Text(text = "Gohil Mahendra", fontSize = 22.sp, color = Color.White)
+
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                        Text(
+                            text = "gohilmahendra424@gmail.com",
+                            fontSize = 17.sp,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            border = BorderStroke(1.dp, Color.White)
+                        )
+                        {
+                            Text(text = "Update Profile", color = Color.White)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
+            }//firstColumn
+            item {
+                Text(
+                    text = "My Stats ",
+                    fontSize = 20.sp, fontFamily = customAppFontFamily,
+                    color = Color.White,
+                    modifier = Modifier.padding(start = 15.dp)
+                )
+                Spacer(modifier = Modifier.padding(bottom = screenHeight * .015f))
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = screenHeight * .01f, end = screenHeight * .01f)
+                        .height(screenHeight * .35f), colors = CardDefaults.cardColors(containerColor = Color.White.copy(.15f))
+                ) {
+
+                }
+            }//secendColumn
+        }
     }
 
     override fun onUserLeaveHint() {
