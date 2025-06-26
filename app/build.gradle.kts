@@ -64,5 +64,6 @@ dependencies {
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation ("androidx.media3:media3-exoplayer:1.3.1")
     implementation ("androidx.media3:media3-ui:1.3.1")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
 }

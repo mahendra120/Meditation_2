@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.Animatable
@@ -11,6 +12,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +48,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.meditation.ui.theme.customAppFontFamily
 import kotlinx.coroutines.delay
 
 
@@ -88,6 +91,7 @@ class Meditation : ComponentActivity() {
             while (currentTime <= maxTime) {
                 delay(1000) // Wait 1 second
                 currentTime++
+                Log.d("333333", "MyHome: ${currentTime}")
             }
         }
 
@@ -158,13 +162,17 @@ class Meditation : ComponentActivity() {
                     startActivity(intent)
                     finish()
                 },
-                modifier = Modifier
-                    .padding(top = screenHeight * .07f)
-                    .height(47.dp)
-                    .width(100.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
-            ) {
-                Text("Back", color = Color.White, fontSize = 16.sp)
+                modifier = Modifier.padding(top = 32.dp, start = 5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                border = BorderStroke(.05.dp, color = Color.White)
+            )
+            {
+                Text(
+                    text = "<",
+                    fontSize = 15.sp,
+                    fontFamily = customAppFontFamily,
+                    color = Color.White
+                )
             }
             Column(
                 modifier = Modifier.fillMaxSize(),

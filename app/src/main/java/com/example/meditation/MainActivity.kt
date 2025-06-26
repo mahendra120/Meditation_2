@@ -501,11 +501,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        finishAffinity()  // all activities close
-        exitProcess(0)    // app completely exit
-    }
+//    override fun onUserLeaveHint() {
+//        super.onUserLeaveHint()
+//        finishAffinity()  // all activities close
+//        exitProcess(0)    // app completely exit
+//    }
 }
 
 @OptIn(UnstableApi::class)
