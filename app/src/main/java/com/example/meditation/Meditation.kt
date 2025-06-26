@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.Animatable
@@ -29,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,10 +49,14 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalConfiguration
+import kotlinx.coroutines.isActive
 
 
 class Meditation : ComponentActivity() {
 
+    val sp by lazy {
+        getSharedPreferences("lecture", MODE_PRIVATE)
+    }
     var secendtime by mutableFloatStateOf(7f)
     var mediaPlayer: MediaPlayer? = null
     var mediaPlayer2: MediaPlayer? = null
@@ -66,7 +72,7 @@ class Meditation : ComponentActivity() {
         }
     }
 
-    @SuppressLint("DefaultLocale")
+    @SuppressLint("DefaultLocale", "CommitPrefEdits")
     @Composable
     @Preview(showSystemUi = true)
 
@@ -78,12 +84,13 @@ class Meditation : ComponentActivity() {
         val screenWidth = configuration.screenWidthDp.dp
 
         var currentTime by remember { mutableIntStateOf(0) }
+        var lastMinute by remember { mutableIntStateOf(0) }
         val maxTime = 30 * 60
 
-        //time show mate
+        // time show mate
         LaunchedEffect(Unit) {
             while (currentTime <= maxTime) {
-                delay(1000) // Wait 1 second
+                delay(100) // Wait 1 second
                 currentTime++
             }
         }
@@ -91,6 +98,24 @@ class Meditation : ComponentActivity() {
         val minutes = currentTime / 60
         val seconds = currentTime % 60
         val timeText = String.format("%d:%02d", minutes, seconds)
+
+        // var min = 0
+        // LaunchedEffect(Unit){
+        //    while (isActive){
+        //        delay(60000)
+        //        min++
+        //   }
+        //  }
+
+        if (lastMinute != minutes) {
+            lastMinute = minutes
+        sp?.edit()?.apply {
+            this.putInt("time", sp?.getInt("time",0)?.plus(1) ?: 0)
+            this.apply()
+        }
+        }
+
+
 
         if (minutes == 7 || minutes == 12 || minutes == 15 || minutes == 18 || minutes == 21) {
             mediaPlayer?.start()
@@ -110,7 +135,6 @@ class Meditation : ComponentActivity() {
                 secendtime = 30f
             }
         }
-
 // secendtime = minutes.toFloat()
         var currentRotation by remember { mutableFloatStateOf(0f) }
         val rotation = remember { Animatable(currentRotation) }
@@ -136,8 +160,12 @@ class Meditation : ComponentActivity() {
                     mediaPlayer2?.pause()
                     val intent = Intent(this@Meditation, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 },
-                modifier = Modifier.padding(top = screenHeight * .03f).height(47.dp).width(100.dp),
+                modifier = Modifier
+                    .padding(top = screenHeight * .03f)
+                    .height(47.dp)
+                    .width(100.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
             ) {
                 Text("Back", color = Color.White, fontSize = 16.sp)
@@ -155,7 +183,7 @@ class Meditation : ComponentActivity() {
                         .size(290.dp)
                         .rotate(currentRotation)
                 )
-                Text(text = "Close Your Eye",fontSize = 25.sp, color = Color.Gray)
+                Text(text = "Close Your Eye", fontSize = 25.sp, color = Color.Gray)
             }
             Box(
                 modifier = Modifier
@@ -165,7 +193,7 @@ class Meditation : ComponentActivity() {
                 Text(
                     text = timeText,
                     fontSize = 25.sp,
-                   color = Color.White,
+                    color = Color.White,
                     modifier = Modifier
                 )
             }

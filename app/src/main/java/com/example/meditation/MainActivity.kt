@@ -69,6 +69,12 @@ import kotlin.system.exitProcess
 
 class MainActivity : ComponentActivity() {
     var page by mutableStateOf("meditation")
+    var totaltime by mutableStateOf(0)
+    var totaltime1 by mutableStateOf(0)
+    val sp by lazy {
+        getSharedPreferences("lecture", MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -348,92 +354,141 @@ class MainActivity : ComponentActivity() {
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
         LazyColumn {
+
+            val hours24 = 24 * 60 * 60 * 1000L
+
+            totaltime = sp?.getInt("time", 0) ?: 0
+            val currentTime = System.currentTimeMillis()
+            val diff = currentTime - hours24
+
+            if (diff >= hours24) {
+                totaltime1 = sp?.getInt("time", 0) ?: 0
+            } else {
+                totaltime1 = 0
+            }
+
             item {
-                Text(
-                    text = "Profile",
-                    fontSize = 35.sp, color = Color.White,
-                    fontFamily = customAppFontFamily,
-                    modifier = Modifier.padding(
-                        start = screenWidth * .35f,
-                        top = screenHeight * .02f
-                    )
+            Text(
+                text = "Profile",
+                fontSize = 35.sp, color = Color.White,
+                fontFamily = customAppFontFamily,
+                modifier = Modifier.padding(
+                    start = screenWidth * .35f,
+                    top = screenHeight * .02f
                 )
-                Row(modifier = Modifier.padding(top = 14.dp)) {
-                    Card(
+            )
+            Row(modifier = Modifier.padding(top = 14.dp)) {
+                Card(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(.3f)
+                        .padding(
+                            top = screenHeight * .033f,
+                            start = screenHeight * .015f,
+                            end = screenHeight * .02f
+                        ),
+                    shape = (RoundedCornerShape(15.dp))
+                )
+                {
+                    Image(
+                        painter = painterResource(R.drawable.profile),
+                        contentDescription = null
+                    )
+
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(.5f)
+                        .padding(start = 2.dp)
+                ) {
+                    Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
+
+                    Text(text = "Gohil Mahendra", fontSize = 22.sp, color = Color.White)
+
+                    Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                    Text(
+                        text = "gohilmahendra424@gmail.com",
+                        fontSize = 17.sp,
+                        color = Color.Gray
+                    )
+
+                    Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                    Button(
                         onClick = {},
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .weight(.3f)
-                            .padding(
-                                top = screenHeight * .033f,
-                                start = screenHeight * .015f,
-                                end = screenHeight * .02f
-                            ),
-                        shape = (RoundedCornerShape(15.dp))
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                        border = BorderStroke(1.dp, Color.White)
                     )
                     {
-                        Image(
-                            painter = painterResource(R.drawable.profile),
-                            contentDescription = null
-                        )
-
+                        Text(text = "Update Profile", color = Color.White)
                     }
-                    Column(
-                        modifier = Modifier
-                            .weight(.5f)
-                            .padding(start = 2.dp)
-                    ) {
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
-
-                        Text(text = "Gohil Mahendra", fontSize = 22.sp, color = Color.White)
-
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
-
+                }
+            }
+            Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
+        }//firstColumn
+        item {
+            Text(
+                text = "My Stats ",
+                fontSize = 20.sp, fontFamily = customAppFontFamily,
+                color = Color.White,
+                modifier = Modifier.padding(start = 15.dp)
+            )
+            Spacer(modifier = Modifier.padding(bottom = screenHeight * .01f))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = screenHeight * .01f, end = screenHeight * .01f)
+                    .height(screenHeight * .22f),
+                colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
+            ) {
+                Row {
+                    Column(modifier = Modifier) {
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .023f))
                         Text(
-                            text = "gohilmahendra424@gmail.com",
-                            fontSize = 17.sp,
-                            color = Color.Gray
+                            text = "Today Min",
+                            fontSize = 25.sp,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(start = 5.dp, end = 20.dp)
                         )
-
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
-
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                            border = BorderStroke(1.dp, Color.White)
+                        Text(
+                            "${totaltime1}",
+                            fontSize = 30.sp,
+                            color = Color.White,
+                            modifier = Modifier.padding(
+                                start = screenWidth * .11f,
+                                top = 8.dp
+                            )
                         )
-                        {
-                            Text(text = "Update Profile", color = Color.White)
-                        }
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .022f))
+                        Text(
+                            text = "Total Min",
+                            fontSize = 25.sp,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(start = 5.dp, end = 20.dp)
+                        )
+                        Text(
+                            "${totaltime}",
+                            fontSize = 30.sp,
+                            color = Color.White,
+                            modifier = Modifier.padding(
+                                start = screenWidth * .11f,
+                                top = 8.dp
+                            )
+                        )
                     }
                 }
-                Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
-            }//firstColumn
-            item {
-                Text(
-                    text = "My Stats ",
-                    fontSize = 20.sp, fontFamily = customAppFontFamily,
-                    color = Color.White,
-                    modifier = Modifier.padding(start = 15.dp)
-                )
-                Spacer(modifier = Modifier.padding(bottom = screenHeight * .015f))
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = screenHeight * .01f, end = screenHeight * .01f)
-                        .height(screenHeight * .35f), colors = CardDefaults.cardColors(containerColor = Color.White.copy(.15f))
-                ) {
-
-                }
-            }//secendColumn
-        }
+            }
+        }//secendColumn
     }
+}
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        finishAffinity()  // all activities close
-        exitProcess(0)    // app completely exit
-    }
+override fun onUserLeaveHint() {
+    super.onUserLeaveHint()
+    finishAffinity()  // all activities close
+    exitProcess(0)    // app completely exit
+}
 }
 
 @OptIn(UnstableApi::class)
