@@ -3,6 +3,7 @@ package com.example.meditation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +21,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -30,7 +30,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -66,7 +65,6 @@ import androidx.media3.ui.PlayerView
 import com.example.meditation.ui.theme.customAppFontFamily
 import kotlin.system.exitProcess
 
-
 class MainActivity : ComponentActivity() {
     var page by mutableStateOf("meditation")
     var totaltime by mutableStateOf(0)
@@ -74,6 +72,10 @@ class MainActivity : ComponentActivity() {
     val sp by lazy {
         getSharedPreferences("lecture", MODE_PRIVATE)
     }
+    var name: String by mutableStateOf("")
+
+    var surname: String by mutableStateOf("")
+    var email: String by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -304,7 +306,7 @@ class MainActivity : ComponentActivity() {
                                 .width(screenWidth * .25f)
                                 .height(195.dp),
                             onClick = {
-                                var intent = Intent(this@MainActivity, Yogacard::class.java)
+                                val intent = Intent(this@MainActivity, Yogacard::class.java)
                                 startActivity(intent)
                             },
                             colors = CardDefaults.cardColors(containerColor = Color.White.copy(.3f))
@@ -353,6 +355,16 @@ class MainActivity : ComponentActivity() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
+
+
+        surname = sp?.getString("surname","") ?: ""
+        name = sp?.getString("name","") ?: ""
+        email = sp?.getString("email", "") ?: ""
+
+        Log.d("---", "MyProfile: ${name}")
+        Log.d("----", "MyProfile: ${surname}")
+        Log.d("-----", "MyProfile: ${email}")
+
         LazyColumn {
 
             val hours24 = 24 * 60 * 60 * 1000L
@@ -368,127 +380,132 @@ class MainActivity : ComponentActivity() {
             }
 
             item {
-            Text(
-                text = "Profile",
-                fontSize = 35.sp, color = Color.White,
-                fontFamily = customAppFontFamily,
-                modifier = Modifier.padding(
-                    start = screenWidth * .35f,
-                    top = screenHeight * .02f
-                )
-            )
-            Row(modifier = Modifier.padding(top = 14.dp)) {
-                Card(
-                    onClick = {},
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(.3f)
-                        .padding(
-                            top = screenHeight * .033f,
-                            start = screenHeight * .015f,
-                            end = screenHeight * .02f
-                        ),
-                    shape = (RoundedCornerShape(15.dp))
-                )
-                {
-                    Image(
-                        painter = painterResource(R.drawable.profile),
-                        contentDescription = null
+                Text(
+                    text = "Profile",
+                    fontSize = 35.sp, color = Color.White,
+                    fontFamily = customAppFontFamily,
+                    modifier = Modifier.padding(
+                        start = screenWidth * .35f,
+                        top = screenHeight * .02f
                     )
-
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(.5f)
-                        .padding(start = 2.dp)
-                ) {
-                    Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
-
-                    Text(text = "Gohil Mahendra", fontSize = 22.sp, color = Color.White)
-
-                    Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
-
-                    Text(
-                        text = "gohilmahendra424@gmail.com",
-                        fontSize = 17.sp,
-                        color = Color.Gray
-                    )
-
-                    Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
-
-                    Button(
+                )
+                Row(modifier = Modifier.padding(top = 14.dp)) {
+                    Card(
                         onClick = {},
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                        border = BorderStroke(1.dp, Color.White)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(.3f)
+                            .padding(
+                                top = screenHeight * .033f,
+                                start = screenHeight * .015f,
+                                end = screenHeight * .02f
+                            ),
+                        shape = (RoundedCornerShape(15.dp))
                     )
                     {
-                        Text(text = "Update Profile", color = Color.White)
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
-        }//firstColumn
-        item {
-            Text(
-                text = "My Stats ",
-                fontSize = 20.sp, fontFamily = customAppFontFamily,
-                color = Color.White,
-                modifier = Modifier.padding(start = 15.dp)
-            )
-            Spacer(modifier = Modifier.padding(bottom = screenHeight * .01f))
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = screenHeight * .01f, end = screenHeight * .01f)
-                    .height(screenHeight * .22f),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
-            ) {
-                Row {
-                    Column(modifier = Modifier) {
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .023f))
-                        Text(
-                            text = "Today Min",
-                            fontSize = 25.sp,
-                            color = Color.Gray,
-                            modifier = Modifier.padding(start = 5.dp, end = 20.dp)
+                        Image(
+                            painter = painterResource(R.drawable.profile),
+                            contentDescription = null
                         )
-                        Text(
-                            "${totaltime1}",
-                            fontSize = 30.sp,
-                            color = Color.White,
-                            modifier = Modifier.padding(
-                                start = screenWidth * .11f,
-                                top = 8.dp
-                            )
-                        )
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .022f))
-                        Text(
-                            text = "Total Min",
-                            fontSize = 25.sp,
-                            color = Color.Gray,
-                            modifier = Modifier.padding(start = 5.dp, end = 20.dp)
-                        )
-                        Text(
-                            "${totaltime}",
-                            fontSize = 30.sp,
-                            color = Color.White,
-                            modifier = Modifier.padding(
-                                start = screenWidth * .11f,
-                                top = 8.dp
-                            )
-                        )
-                    }
-                }
-            }
-        }//secendColumn
-    }
-}
 
-override fun onUserLeaveHint() {
-    super.onUserLeaveHint()
-    finishAffinity()  // all activities close
-    exitProcess(0)    // app completely exit
-}
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(.5f)
+                            .padding(start = 2.dp)
+                    ) {
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
+
+                        Row {
+                            Text(text = "${surname} ", fontSize = 22.sp, color = Color.White)
+                            Text(text = "${name}", fontSize = 22.sp, color = Color.White)
+                        }
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                        Text(
+                            text = "${email}",
+                            fontSize = 17.sp,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                        Button(
+                            onClick = {
+                                val intent = Intent(this@MainActivity, UpdateProfile::class.java)
+                                startActivity(intent)
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            border = BorderStroke(1.dp, Color.White)
+                        )
+                        {
+                            Text(text = "Update Profile", color = Color.White)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
+            }//firstColumn
+            item {
+                Text(
+                    text = "My Stats",
+                    fontSize = 20.sp, fontFamily = customAppFontFamily,
+                    color = Color.White,
+                    modifier = Modifier.padding(start = 15.dp)
+                )
+                Spacer(modifier = Modifier.padding(bottom = screenHeight * .01f))
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = screenHeight * .01f, end = screenHeight * .01f)
+                        .height(screenHeight * .27f),
+                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
+                ) {
+                    Row {
+                        Column(modifier = Modifier) {
+                            Spacer(modifier = Modifier.padding(top = screenHeight * .023f))
+                            Text(
+                                text = "Today Min",
+                                fontSize = 25.sp,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(start = 5.dp, end = 20.dp)
+                            )
+                            Text(
+                                "${totaltime1}",
+                                fontSize = 30.sp,
+                                color = Color.White,
+                                modifier = Modifier.padding(
+                                    start = screenWidth * .11f,
+                                    top = 8.dp
+                                )
+                            )
+                            Spacer(modifier = Modifier.padding(top = screenHeight * .022f))
+                            Text(
+                                text = "Total Min",
+                                fontSize = 25.sp,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(start = 5.dp, end = 20.dp)
+                            )
+                            Text(
+                                "${totaltime}",
+                                fontSize = 30.sp,
+                                color = Color.White,
+                                modifier = Modifier.padding(
+                                    start = screenWidth * .11f,
+                                    top = 8.dp
+                                )
+                            )
+                        }
+                    }
+                }
+            }//secendColumn
+        }
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        finishAffinity()  // all activities close
+        exitProcess(0)    // app completely exit
+    }
 }
 
 @OptIn(UnstableApi::class)

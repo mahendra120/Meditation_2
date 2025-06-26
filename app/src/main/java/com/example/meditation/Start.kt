@@ -119,7 +119,7 @@ class Start : ComponentActivity() {
                         },
                         modifier = Modifier
                             .padding(bottom = screenHeight * .08f) // 🔹 Only 3.dp from bottom
-                            .height(screenHeight * .063f )
+                            .height(screenHeight * .063f)
                             .width(screenWidth * .86f),
                         border = BorderStroke(1.dp, Color.White),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)

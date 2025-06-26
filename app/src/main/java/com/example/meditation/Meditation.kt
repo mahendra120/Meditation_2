@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.Animatable
@@ -30,7 +29,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,12 +47,9 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
-import androidx.compose.ui.platform.LocalConfiguration
-import kotlinx.coroutines.isActive
 
 
 class Meditation : ComponentActivity() {
-
     val sp by lazy {
         getSharedPreferences("lecture", MODE_PRIVATE)
     }
@@ -90,7 +86,7 @@ class Meditation : ComponentActivity() {
         // time show mate
         LaunchedEffect(Unit) {
             while (currentTime <= maxTime) {
-                delay(100) // Wait 1 second
+                delay(1000) // Wait 1 second
                 currentTime++
             }
         }
@@ -109,10 +105,10 @@ class Meditation : ComponentActivity() {
 
         if (lastMinute != minutes) {
             lastMinute = minutes
-        sp?.edit()?.apply {
-            this.putInt("time", sp?.getInt("time",0)?.plus(1) ?: 0)
-            this.apply()
-        }
+            sp?.edit()?.apply {
+                this.putInt("time", sp?.getInt("time", 0)?.plus(1) ?: 0)
+                this.apply()
+            }
         }
 
 
@@ -163,7 +159,7 @@ class Meditation : ComponentActivity() {
                     finish()
                 },
                 modifier = Modifier
-                    .padding(top = screenHeight * .03f)
+                    .padding(top = screenHeight * .07f)
                     .height(47.dp)
                     .width(100.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
