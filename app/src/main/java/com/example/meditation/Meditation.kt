@@ -162,7 +162,7 @@ class Meditation : ComponentActivity() {
                     startActivity(intent)
                     finish()
                 },
-                modifier = Modifier.padding(top = 32.dp, start = 5.dp),
+                modifier = Modifier.padding(top = 30.dp, start = 5.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(.05.dp, color = Color.White)
             )

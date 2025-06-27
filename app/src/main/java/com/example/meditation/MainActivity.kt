@@ -434,6 +434,7 @@ class MainActivity : ComponentActivity() {
                             onClick = {
                                 val intent = Intent(this@MainActivity, UpdateProfile::class.java)
                                 startActivity(intent)
+                                finish()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                             border = BorderStroke(1.dp, Color.White)

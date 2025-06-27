@@ -1,10 +1,8 @@
 package com.example.meditation
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -18,17 +16,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -65,12 +59,13 @@ class UpdateProfile : ComponentActivity() {
                     .background(Color.Black)
             ) {
                 Button(
-                    onClick = { finish() },
-                    modifier = Modifier.padding(top = 23.dp, start = 5.dp),
+                    onClick = {
+                        finish()
+                    },
+                    modifier = Modifier.padding(top = 45.dp, start = 9.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     border = BorderStroke(.05.dp, color = Color.White)
-                )
-                {
+                ) {
                     Text(
                         text = "<",
                         fontSize = 15.sp,
@@ -100,7 +95,7 @@ class UpdateProfile : ComponentActivity() {
                 launcher.launch("image/*")
             },
             modifier = Modifier
-                .padding(top = screenHeight * .12f, start = screenHeight * .135f)
+                .padding(top = screenHeight * .2f, start = screenHeight * .135f)
                 .height(160.dp)
                 .width(150.dp),
             shape = (RoundedCornerShape(15.dp)),
@@ -124,72 +119,55 @@ class UpdateProfile : ComponentActivity() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 190.dp),
+                .padding(top = 280.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            TextField(
-                value = name,
-                onValueChange = { name = it },
-                label = {
-                    Text(
-                        "Enter The Name ",
-                        fontFamily = customAppFontFamily,
-                        color = Color.Gray
-                    )
-                }
-            )
+            TextField(value = name, onValueChange = { name = it }, label = {
+                Text(
+                    "Enter The Name ", fontFamily = customAppFontFamily, color = Color.Gray
+                )
+            })
             Spacer(
                 modifier = Modifier.padding(
-                    top = screenHeight * .03f,
-                    end = screenHeight * .03f
+                    top = screenHeight * .03f, end = screenHeight * .03f
                 )
             )
-            TextField(
-                value = surname,
-                onValueChange = { surname = it },
-                label = {
-                    Text(
-                        "Enter the surname ",
-                        fontFamily = customAppFontFamily,
-                        color = Color.Gray
-                    )
-                }
-            )
+            TextField(value = surname, onValueChange = { surname = it }, label = {
+                Text(
+                    "Enter the surname ", fontFamily = customAppFontFamily, color = Color.Gray
+                )
+            })
             Spacer(
                 modifier = Modifier.padding(
-                    top = screenHeight * .03f,
-                    end = screenHeight * .03f
+                    top = screenHeight * .03f, end = screenHeight * .03f
                 )
             )
-            TextField(
-                value = email,
-                onValueChange = { email = it },
-                label = {
-                    Text(
-                        "Enter the Email ",
-                        fontFamily = customAppFontFamily,
-                        color = Color.Gray
-                    )
-                }
-            )
+            TextField(value = email, onValueChange = { email = it }, label = {
+                Text(
+                    "Enter the Email ", fontFamily = customAppFontFamily, color = Color.Gray
+                )
+            })
             Spacer(modifier = Modifier.padding(top = 60.dp))
             Button(
                 onClick = {
                     sp?.edit()?.apply {
-                        this.putString("surname", surname) ?: ""
+                        this.putString("surname", surname) ?: "h"
                         this.apply()
                     }
                     sp?.edit()?.apply {
-                        this.putString("name", name) ?: ""
+                        this.putString("name", name) ?: "h"
                         this.apply()
                     }
                     sp?.edit()?.apply {
-                        this.putString("email", email) ?: ""
+                        this.putString("email", email) ?: "h"
                         this.apply()
                     }
                     finish()
-                }, modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    var intent = Intent(this@UpdateProfile, MainActivity::class.java)
+                    startActivity(intent)
+                },
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, Color.White)
             ) {
