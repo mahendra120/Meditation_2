@@ -3,6 +3,7 @@ package com.example.meditation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -49,8 +50,18 @@ class UpdateProfile : ComponentActivity() {
     var name by mutableStateOf("")
     var surname by mutableStateOf("")
     var email by mutableStateOf("")
+
+    var nameError by mutableStateOf("")
+    var surnameError by mutableStateOf("")
+    var emailError by mutableStateOf("")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        name = sp.getString("name", "") ?: ""
+        surname = sp.getString("surname", "") ?: ""
+        email = sp.getString("email", "") ?: ""
+
         enableEdgeToEdge()
         setContent {
             Box(
@@ -61,6 +72,8 @@ class UpdateProfile : ComponentActivity() {
                 Button(
                     onClick = {
                         finish()
+                        var intent = Intent(this@UpdateProfile, MainActivity::class.java)
+                        startActivity(intent)
                     },
                     modifier = Modifier.padding(top = 45.dp, start = 9.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
@@ -73,6 +86,8 @@ class UpdateProfile : ComponentActivity() {
                         color = Color.White
                     )
                 }
+
+
                 Myfunction()
             }
         }
@@ -88,7 +103,13 @@ class UpdateProfile : ComponentActivity() {
         val launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent()
         ) { uri: Uri? ->
-            selectedImageUri = uri
+            uri?.let {
+                contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                selectedImageUri = it
+            }
         }
         Card(
             onClick = {
@@ -123,93 +144,115 @@ class UpdateProfile : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            TextField(value = name, onValueChange = { name = it }, label = {
-                Text(
-                    "Enter The Name ", fontFamily = customAppFontFamily, color = Color.Gray
-                )
-            })
+            TextField(
+                value = name, onValueChange = { name = it }, label = {
+                    Text(
+                        "Enter The Name ", fontFamily = customAppFontFamily, color = Color.Gray
+                    )
+                },
+                isError = nameError.isNotEmpty(),
+                supportingText = {
+                    Text(
+                        text = nameError,
+                        color = Color.Red,
+                        fontFamily = customAppFontFamily,
+                        fontSize = 12.sp
+                    )
+                })
             Spacer(
                 modifier = Modifier.padding(
                     top = screenHeight * .03f, end = screenHeight * .03f
                 )
             )
-            TextField(value = surname, onValueChange = { surname = it }, label = {
-                Text(
-                    "Enter the surname ", fontFamily = customAppFontFamily, color = Color.Gray
-                )
-            })
+            TextField(
+                value = surname,
+                onValueChange = { surname = it },
+                label = {
+                    Text(
+                        "Enter the surname ",
+                        fontFamily = customAppFontFamily,
+                        color = Color.Gray
+                    )
+                },
+                isError = surnameError.isNotEmpty(),
+                supportingText = {
+                    Text(
+                        text = surnameError,
+                        color = Color.Red,
+                        fontFamily = customAppFontFamily,
+                        fontSize = 12.sp
+                    )
+                }
+            )
             Spacer(
                 modifier = Modifier.padding(
                     top = screenHeight * .03f, end = screenHeight * .03f
                 )
             )
-            TextField(value = email, onValueChange = { email = it }, label = {
-                Text(
-                    "Enter the Email ", fontFamily = customAppFontFamily, color = Color.Gray
-                )
-            })
+            TextField(
+                value = email, onValueChange = { email = it }, label = {
+                    Text(
+                        "Enter the Email ", fontFamily = customAppFontFamily, color = Color.Gray
+                    )
+                },
+                isError = emailError.isNotEmpty(),
+                supportingText = {
+                    Text(
+                        text = emailError,
+                        color = Color.Red,
+                        fontFamily = customAppFontFamily,
+                        fontSize = 12.sp
+                    )
+                })
             Spacer(modifier = Modifier.padding(top = 60.dp))
             Button(
                 onClick = {
                     sp?.edit()?.apply {
-                        this.putString("surname", surname) ?: "h"
-                        this.apply()
+                        if (name.isEmpty()) {
+                            nameError = "enter name"
+                            return@Button
+                        } else {
+                            nameError = ""
+                        }
+                        if (surname.isEmpty()) {
+                            surnameError = "enter suname"
+                            return@Button
+                        } else {
+                            surnameError = ""
+                        }
+                        if (email.isEmpty()) {
+                            emailError = "enter email"
+                            return@Button
+                        } else {
+                            emailError = ""
+                        }
+                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            emailError = "enter valid email"
+                            return@Button
+                        } else {
+                            emailError = ""
+                        }
+
+                        putString("name", name)
+                        putString("surname", surname)
+                        putString("email", email)
+                        selectedImageUri?.let {
+                            putString(
+                                "profile_image_uri",
+                                selectedImageUri.toString()
+                            ) // Save URI as string
+                        }
+                        apply()
+                        finish()
+                        var intent = Intent(this@UpdateProfile, MainActivity::class.java)
+                        startActivity(intent)
                     }
-                    sp?.edit()?.apply {
-                        this.putString("name", name) ?: "h"
-                        this.apply()
-                    }
-                    sp?.edit()?.apply {
-                        this.putString("email", email) ?: "h"
-                        this.apply()
-                    }
-                    finish()
-                    var intent = Intent(this@UpdateProfile, MainActivity::class.java)
-                    startActivity(intent)
                 },
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, Color.White)
             ) {
                 Text("Add", fontFamily = customAppFontFamily, fontSize = 20.sp)
-            }
-        }
-    }
-
-
-    @Composable
-    fun GalleryImageCard(screenHeight: Dp) {
-        // Store selected image
-        var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-        // Create the gallery launcher
-        val launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent()
-        ) { uri: Uri? ->
-            selectedImageUri = uri
-        }
-
-        // Card with image and onClick
-        Card(
-            onClick = { launcher.launch("image/*") },
-            modifier = Modifier
-                .padding(top = screenHeight * .12f, start = screenHeight * .135f)
-                .height(160.dp)
-                .width(150.dp),
-            shape = RoundedCornerShape(15.dp)
-        ) {
-            if (selectedImageUri != null) {
-                Image(
-                    painter = rememberAsyncImagePainter(selectedImageUri),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else {
-                Image(
-                    painter = painterResource(R.drawable.profile),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
             }
         }
     }

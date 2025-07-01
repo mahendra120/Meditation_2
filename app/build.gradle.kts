@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.meditation"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -65,5 +65,7 @@ dependencies {
     implementation ("androidx.media3:media3-exoplayer:1.3.1")
     implementation ("androidx.media3:media3-ui:1.3.1")
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+//    implementation("co.yml:ycharts:2.1.0")
 
 }

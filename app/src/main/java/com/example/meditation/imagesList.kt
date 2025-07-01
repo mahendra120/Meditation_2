@@ -1,7 +1,5 @@
 package com.example.meditation
 
-import androidx.compose.foundation.layout.Row
-
 val Mudra_Images = arrayListOf(
     R.drawable.vayu_mudra,
     R.drawable.sury_mudra,

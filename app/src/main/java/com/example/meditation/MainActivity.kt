@@ -1,9 +1,9 @@
 package com.example.meditation
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -41,12 +42,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -62,21 +65,15 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.meditation.ui.theme.customAppFontFamily
 import kotlin.system.exitProcess
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
     var page by mutableStateOf("meditation")
-    var totaltime by mutableStateOf(0)
-    var totaltime1 by mutableStateOf(0)
-    val sp by lazy {
-        getSharedPreferences("lecture", MODE_PRIVATE)
-    }
     var name: String by mutableStateOf("")
-
-    var surname: String by mutableStateOf("")
-    var email: String by mutableStateOf("")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -107,7 +104,6 @@ class MainActivity : ComponentActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-//                .padding(innerPadding)
         )
         {
             BackgroundVideoPlayer()
@@ -201,8 +197,8 @@ class MainActivity : ComponentActivity() {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 100.dp)
-                    .width(340.dp)
+                    .padding(bottom = 110.dp)
+                    .width(380.dp)
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(2.dp, color = Color.White)
@@ -349,103 +345,121 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    @SuppressLint("UseKtx")
     @Composable
     @Preview(showSystemUi = true)
     fun MyProfile() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
+        val context = LocalContext.current
 
+        val sp = context.getSharedPreferences("lecture", MODE_PRIVATE)
+        val savedUriString = sp.getString("profile_image_uri", null)
+        val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
 
-        surname = sp?.getString("surname","") ?: ""
-        name = sp?.getString("name","") ?: ""
-        email = sp?.getString("email", "") ?: ""
-
-        Log.d("---", "MyProfile: ${name}")
-        Log.d("----", "MyProfile: ${surname}")
-        Log.d("-----", "MyProfile: ${email}")
-
-        LazyColumn {
-
-            val hours24 = 24 * 60 * 60 * 1000L
-
-            totaltime = sp?.getInt("time", 0) ?: 0
-            val currentTime = System.currentTimeMillis()
-            val diff = currentTime - hours24
-
-            if (diff >= hours24) {
-                totaltime1 = sp?.getInt("time", 0) ?: 0
-            } else {
-                totaltime1 = 0
+        LaunchedEffect(savedUriString) {
+            savedUriString?.let {
+                selectedImageUri.value = it.toUri()
             }
+        }
 
+        val surname = sp.getString("surname", "") ?: ""
+        val name = sp.getString("name", "") ?: ""
+        val email = sp.getString("email", "") ?: ""
+
+        val hours24 = 24 * 60 * 60 * 1000L
+        val totaltime = sp.getInt("time", 0)
+        val currentTime = System.currentTimeMillis()
+        val diff = currentTime - hours24
+        val totaltime1 = if (diff >= hours24) totaltime else 0
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+                .padding(horizontal = 16.dp)
+        ) {
             item {
                 Text(
                     text = "Profile",
-                    fontSize = 35.sp, color = Color.White,
+                    fontSize = 35.sp,
+                    color = Color.White,
                     fontFamily = customAppFontFamily,
                     modifier = Modifier.padding(
-                        start = screenWidth * .35f,
-                        top = screenHeight * .02f
+                        start = screenWidth * .3f,
+                        top = screenHeight * .02f,
+                        bottom = 16.dp
                     )
                 )
+
                 Row(modifier = Modifier.padding(top = 14.dp)) {
                     Card(
-                        onClick = {},
                         modifier = Modifier
-                            .fillMaxSize()
-                            .weight(.3f)
-                            .padding(
-                                top = screenHeight * .033f,
-                                start = screenHeight * .015f,
-                                end = screenHeight * .02f
-                            ),
-                        shape = (RoundedCornerShape(15.dp))
-                    )
-                    {
-                        Image(
-                            painter = painterResource(R.drawable.profile),
-                            contentDescription = null
-                        )
-
+                            .size(120.dp)
+                            .clip(RoundedCornerShape(16.dp)),
+                        elevation = CardDefaults.cardElevation(8.dp)
+                    ) {
+                        if (selectedImageUri.value != null) {
+                            val painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(context)
+                                    .data(selectedImageUri.value)
+                                    .crossfade(true)
+                                    .build()
+                            )
+                            Image(
+                                painter = painter,
+                                contentDescription = "Profile Image",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(R.drawable.profile),
+                                contentDescription = "Default Image",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                     }
+
+                    Spacer(modifier = Modifier.width(25.dp))
                     Column(
                         modifier = Modifier
-                            .weight(.5f)
-                            .padding(start = 2.dp)
+                            .weight(1f)
+                            .align(Alignment.CenterVertically)
                     ) {
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
-
                         Row {
-                            Text(text = "${surname} ", fontSize = 22.sp, color = Color.White)
-                            Text(text = "${name}", fontSize = 22.sp, color = Color.White)
+                            Text(text = surname, fontSize = 22.sp, color = Color.White)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = name, fontSize = 22.sp, color = Color.White)
                         }
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+
+                        Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "${email}",
+                            text = email,
                             fontSize = 17.sp,
                             color = Color.Gray
                         )
 
-                        Spacer(modifier = Modifier.padding(top = screenHeight * .01f))
+                        Spacer(modifier = Modifier.height(8.dp))
 
                         Button(
                             onClick = {
-                                val intent = Intent(this@MainActivity, UpdateProfile::class.java)
-                                startActivity(intent)
-                                finish()
+                                val intent = Intent(context, UpdateProfile::class.java)
+                                context.startActivity(intent)
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                            border = BorderStroke(1.dp, Color.White)
-                        )
-                        {
+                            border = BorderStroke(1.dp, Color.White),
+                            modifier = Modifier.height(40.dp)
+                        ) {
                             Text(text = "Update Profile", color = Color.White)
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(bottom = screenHeight * .025f))
-            }//firstColumn
+
+                Spacer(modifier = Modifier.height(24.dp))
+            }
             item {
                 Text(
                     text = "My Stats",
@@ -457,38 +471,38 @@ class MainActivity : ComponentActivity() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = screenHeight * .01f, end = screenHeight * .01f)
-                        .height(screenHeight * .27f),
+                        .padding(start = screenHeight * .01f, end = screenHeight * .12f)
+                        .height(screenHeight * .25f),
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
                 ) {
                     Row {
                         Column(modifier = Modifier) {
-                            Spacer(modifier = Modifier.padding(top = screenHeight * .023f))
+                            Spacer(modifier = Modifier.padding(top = screenHeight * .03f))
                             Text(
-                                text = "Today Min",
-                                fontSize = 25.sp,
+                                text = "Today's Minutes",
+                                fontSize = 23.sp,
                                 color = Color.Gray,
                                 modifier = Modifier.padding(start = 5.dp, end = 20.dp)
                             )
                             Text(
                                 "${totaltime1}",
-                                fontSize = 30.sp,
+                                fontSize = 34.sp,
                                 color = Color.White,
                                 modifier = Modifier.padding(
                                     start = screenWidth * .11f,
                                     top = 8.dp
                                 )
                             )
-                            Spacer(modifier = Modifier.padding(top = screenHeight * .022f))
+                            Spacer(modifier = Modifier.padding(top = screenHeight * .03f))
                             Text(
-                                text = "Total Min",
-                                fontSize = 25.sp,
+                                text = "Total Minutes",
+                                fontSize = 20.sp,
                                 color = Color.Gray,
-                                modifier = Modifier.padding(start = 5.dp, end = 20.dp)
+                                modifier = Modifier.padding(start = 20.dp, end = 20.dp)
                             )
                             Text(
                                 "${totaltime}",
-                                fontSize = 30.sp,
+                                fontSize = 25.sp,
                                 color = Color.White,
                                 modifier = Modifier.padding(
                                     start = screenWidth * .11f,
@@ -501,12 +515,6 @@ class MainActivity : ComponentActivity() {
             }//secendColumn
         }
     }
-
-//    override fun onUserLeaveHint() {
-//        super.onUserLeaveHint()
-//        finishAffinity()  // all activities close
-//        exitProcess(0)    // app completely exit
-//    }
 }
 
 @OptIn(UnstableApi::class)
@@ -517,7 +525,7 @@ fun BackgroundVideoPlayer() {
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
             val videoUri =
-                Uri.parse("android.resource://${context.packageName}/${R.raw.home_page2}")
+                "android.resource://${context.packageName}/${R.raw.home_page2}".toUri()
             val mediaItem = MediaItem.fromUri(videoUri)
             setMediaItem(mediaItem)
             prepare()
