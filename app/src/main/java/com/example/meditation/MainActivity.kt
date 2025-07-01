@@ -465,13 +465,13 @@ class MainActivity : ComponentActivity() {
                     text = "My Stats",
                     fontSize = 20.sp, fontFamily = customAppFontFamily,
                     color = Color.White,
-                    modifier = Modifier.padding(start = 15.dp)
+                    modifier = Modifier.padding(start = 12.dp)
                 )
-                Spacer(modifier = Modifier.padding(bottom = screenHeight * .01f))
+                Spacer(modifier = Modifier.padding(bottom = screenHeight * .019f))
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = screenHeight * .01f, end = screenHeight * .12f)
+                        .padding(start = screenHeight * .001f, end = screenHeight * .17f)
                         .height(screenHeight * .25f),
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
                 ) {
@@ -485,7 +485,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(start = 5.dp, end = 20.dp)
                             )
                             Text(
-                                "${totaltime1}",
+                                "$totaltime1",
                                 fontSize = 34.sp,
                                 color = Color.White,
                                 modifier = Modifier.padding(
@@ -501,7 +501,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(start = 20.dp, end = 20.dp)
                             )
                             Text(
-                                "${totaltime}",
+                                "$totaltime",
                                 fontSize = 25.sp,
                                 color = Color.White,
                                 modifier = Modifier.padding(
@@ -512,7 +512,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-            }//secendColumn
+            }//secondColumn
         }
     }
 }

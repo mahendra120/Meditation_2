@@ -20,8 +20,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -160,7 +165,7 @@ class Meditation : ComponentActivity() {
                 .fillMaxSize()
                 .background(Color.Black)
         ) {
-            Button(
+            IconButton(
                 onClick = {
                     mediaPlayer?.pause()
                     mediaPlayer2?.pause()
@@ -168,16 +173,15 @@ class Meditation : ComponentActivity() {
                     startActivity(intent)
                     finish()
                 },
-                modifier = Modifier.padding(top = 40.dp, start = 5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                border = BorderStroke(.05.dp, color = Color.White)
+                modifier = Modifier.padding(top = 45.dp),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent),
             )
             {
-                Text(
-                    text = "<",
-                    fontSize = 17.sp,
-                    fontFamily = customAppFontFamily,
-                    color = Color.White
+                Icon(
+                    Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null,
+                    modifier = Modifier.size(33.dp),
+                    tint = Color.White
                 )
             }
             Column(

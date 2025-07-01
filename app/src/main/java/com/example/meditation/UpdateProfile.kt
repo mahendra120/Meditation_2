@@ -19,11 +19,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -69,25 +75,22 @@ class UpdateProfile : ComponentActivity() {
                     .fillMaxSize()
                     .background(Color.Black)
             ) {
-                Button(
+                IconButton(
                     onClick = {
                         finish()
                         var intent = Intent(this@UpdateProfile, MainActivity::class.java)
                         startActivity(intent)
                     },
                     modifier = Modifier.padding(top = 45.dp, start = 9.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                    border = BorderStroke(.05.dp, color = Color.White)
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent),
                 ) {
-                    Text(
-                        text = "<",
-                        fontSize = 15.sp,
-                        fontFamily = customAppFontFamily,
-                        color = Color.White
+                    Icon(
+                        Icons.Default.KeyboardArrowLeft,
+                        contentDescription = null,
+                        modifier = Modifier.size(33.dp),
+                        tint = Color.White
                     )
                 }
-
-
                 Myfunction()
             }
         }
@@ -97,7 +100,6 @@ class UpdateProfile : ComponentActivity() {
     fun Myfunction() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
-        val screenWidth = configuration.screenWidthDp.dp
         var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
         val launcher = rememberLauncherForActivityResult(

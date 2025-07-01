@@ -9,8 +9,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -43,8 +49,6 @@ class Yogacard : ComponentActivity() {
 fun MainScreen(onBack : () ->Unit) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    val screenWidth = configuration.screenWidthDp.dp
-
     val context = LocalContext.current
     val videoUrl = "https://files.catbox.moe/o1w88b.mp4"
 
@@ -65,11 +69,16 @@ fun MainScreen(onBack : () ->Unit) {
         }
     }, modifier = Modifier.fillMaxSize())
 
-    Button(
+    IconButton(
         onClick = onBack,
-        modifier = Modifier.padding(top =  screenHeight * .03f),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(.2f))
+        modifier = Modifier.padding(top =  screenHeight * .04f),
+        colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent),
     ) {
-        Text("Back", color = Color.White, fontSize = 16.sp)
+        Icon(
+            Icons.Default.KeyboardArrowLeft,
+            contentDescription = null,
+            modifier = Modifier.size(33.dp),
+            tint = Color.White
+        )
     }
 }
