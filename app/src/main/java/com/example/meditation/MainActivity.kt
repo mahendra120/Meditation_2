@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -287,7 +288,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             } // Pranayam
-            item {
+            item{
                 Text(
                     "Asana",
                     fontSize = 20.sp, fontFamily = customAppFontFamily,
@@ -306,6 +307,8 @@ class MainActivity : ComponentActivity() {
                                 .height(195.dp),
                             onClick = {
                                 val intent = Intent(this@MainActivity, Yogacard::class.java)
+                                intent.putExtra("videoUrl", yogavoidelist[it])
+                                Log.d("-----", "MyYoga: ${yogavoidelist[it]}")
                                 startActivity(intent)
                             },
                             colors = CardDefaults.cardColors(containerColor = Color.White.copy(.3f))
@@ -501,7 +504,7 @@ class MainActivity : ComponentActivity() {
                                 text = "Total Minutes",
                                 fontSize = 20.sp,
                                 color = Color.Gray,
-                                modifier = Modifier.padding(start = 0.dp, end = 20.dp)
+                                modifier = Modifier.padding(start = 10.dp, end = 20.dp)
                             )
                             Text(
                                 "$totaltime",

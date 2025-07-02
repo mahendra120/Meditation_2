@@ -62,8 +62,8 @@ dependencies {
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
-    implementation ("androidx.media3:media3-exoplayer:1.3.1")
-    implementation ("androidx.media3:media3-ui:1.3.1")
+    implementation ("androidx.media3:media3-exoplayer:1.7.1")
+    implementation ("androidx.media3:media3-ui:1.7.1")
     implementation("io.coil-kt:coil-compose:2.4.0")
 
 //    implementation("co.yml:ycharts:2.1.0")

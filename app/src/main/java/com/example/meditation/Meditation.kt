@@ -6,12 +6,12 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -66,7 +68,7 @@ class Meditation : ComponentActivity() {
         mediaPlayer = MediaPlayer.create(this, R.raw.bell_song)
         mediaPlayer2 = MediaPlayer.create(this, R.raw.main_meditation_song)
         mediaPlayer3 = MediaPlayer.create(this, R.raw.meditationttt)
-        enableEdgeToEdge()
+
         setContent {
             mediaPlayer3?.start()
             MyHome()
@@ -86,9 +88,11 @@ class Meditation : ComponentActivity() {
         var currentTime by remember { mutableIntStateOf(0) }
         var lastMinute by remember { mutableIntStateOf(0) }
         val maxTime = 30 * 60
-        var fristsong by remember { mutableIntStateOf(36) }
+        var fristsong by remember { mutableIntStateOf(37) }
 
         if (fristsong <= 0) {
+            mediaPlayer2?.pause()
+        } else {
             mediaPlayer2?.start()
         }
 
@@ -96,7 +100,7 @@ class Meditation : ComponentActivity() {
         if (fristsong <= 0) {
             LaunchedEffect(Unit) {
                 while (currentTime <= maxTime) {
-                    delay(1100) // Wait 1 second
+                    delay(1000) // Wait 1 second
                     currentTime++
                 }
             }
@@ -166,16 +170,16 @@ class Meditation : ComponentActivity() {
                     mediaPlayer?.pause()
                     mediaPlayer2?.pause()
                     mediaPlayer3?.pause()
-                    finish()
                     val intent = Intent(this@Meditation, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 },
                 modifier = Modifier.padding(top = 45.dp),
                 colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent),
             )
             {
                 Icon(
-                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    Icons.Default.KeyboardArrowLeft,
                     contentDescription = null,
                     modifier = Modifier.size(33.dp),
                     tint = Color.White
@@ -200,7 +204,7 @@ class Meditation : ComponentActivity() {
                     Text(
                         text = "Close Your Eye",
                         fontSize = 30.sp,
-                        color = Color.White.copy(.8f),
+                        color = Color.Gray,
                         fontFamily = customAppFontFamily
                     )
                 } else {
@@ -233,7 +237,7 @@ class Meditation : ComponentActivity() {
                         .padding(bottom = screenWidth * .23f, end = 90.dp)
                 ) {
                     Text(
-                        text = "$timeText  ",
+                        text = timeText,
                         fontSize = 25.sp,
                         color = Color.White,
                         modifier = Modifier
@@ -245,7 +249,7 @@ class Meditation : ComponentActivity() {
                         .padding(bottom = screenWidth * .23f, end = 15.dp)
                 ) {
                     Text(
-                        text = "   / ${secendtime.toInt()}:00",
+                        text = "  / ${secendtime.toInt()}:00",
                         fontSize = 25.sp,
                         color = Color.Gray,
                         modifier = Modifier
@@ -277,7 +281,7 @@ class Meditation : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = screenHeight * 0.92f)
+                    .padding(top = screenHeight * 0.85f)
                     .size(screenWidth * 0.6f)
                     .align(Alignment.BottomCenter)
             ) {

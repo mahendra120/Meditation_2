@@ -32,9 +32,22 @@ val yoga_pose_Images = arrayListOf(
     R.drawable.halasana,
     R.drawable.sarvangasana,
     R.drawable.setu_bandhasana,
-    R.drawable.adho_mukha_svanasana,
     R.drawable.chakrasana,
     R.drawable.paschimottanasana,
+)
+val yogavoidelist = arrayListOf(
+    "https://files.catbox.moe/8igzhh.mp4",
+    "https://files.catbox.moe/iojw87.mp4",
+    "https://files.catbox.moe/jxqebt.mp4",
+    "https://files.catbox.moe/jzfvmd.mp4",
+    "https://files.catbox.moe/q7mjh3.mp4",
+    "https://files.catbox.moe/3hmjjo.mp4",
+    "https://files.catbox.moe/c3ehoq.mp4",
+    "https://files.catbox.moe/84uh4f.mp4",
+    "https://files.catbox.moe/sm83i7.mp4",
+    "https://files.catbox.moe/igteb7.mp4",
+    "https://files.catbox.moe/3hmjjo.mp4",
+    "https://files.catbox.moe/f6jk8a.mp4",
 )
 val YogaPoseName = arrayListOf(
     "Tadasana",
@@ -47,7 +60,6 @@ val YogaPoseName = arrayListOf(
     "Halasana",
     "Sarvadaman",
     "Setubandhasana",
-    "Adhomukhasana",
     "Chakrasana",
     "paschimottanasana"
 )
@@ -85,5 +97,22 @@ https://youtu.be/gy7mHwp8dTQ?si=UdKHa2RDRgaraVrK
 }
 
 pranayam steps {
+}
+ */
+
+
+/*yoga videos {
+https://files.catbox.moe/8igzhh.mp4
+https://files.catbox.moe/iojw87.mp4
+https://files.catbox.moe/jxqebt.mp4
+https://files.catbox.moe/jzfvmd.mp4
+https://files.catbox.moe/q7mjh3.mp4
+https://files.catbox.moe/3hmjjo.mp4
+https://files.catbox.moe/c3ehoq.mp4
+https://files.catbox.moe/84uh4f.mp4
+https://files.catbox.moe/sm83i7.mp4
+https://files.catbox.moe/igteb7.mp4
+https://files.catbox.moe/3hmjjo.mp4
+https://files.catbox.moe/f6jk8a.mp4
 }
  */
