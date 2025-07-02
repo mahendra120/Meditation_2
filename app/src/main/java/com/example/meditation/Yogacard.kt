@@ -76,6 +76,14 @@ fun MainScreen(onBack: () -> Unit) {
                 setMediaItem(MediaItem.fromUri(videoUrl))
                 prepare()
                 playWhenReady = true
+                addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(state: Int) {
+                        if (state == Player.STATE_ENDED) {
+                            seekTo(0)
+                            playWhenReady = true
+                        }
+                    }
+                })
             }
     }
 
@@ -98,7 +106,7 @@ fun MainScreen(onBack: () -> Unit) {
         IconButton(
             onClick = onBack,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(top  = 20.dp)
                 .align(Alignment.TopStart),
             colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent),
         ) {

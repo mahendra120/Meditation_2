@@ -49,6 +49,14 @@ val yogavoidelist = arrayListOf(
     "https://files.catbox.moe/3hmjjo.mp4",
     "https://files.catbox.moe/f6jk8a.mp4",
 )
+val mudravoidelist = arrayListOf(
+    "https://files.catbox.moe/i8bfop.mp4",
+    "https://files.catbox.moe/ddy77x.mp4",
+    "https://files.catbox.moe/mmm7fp.mp4",
+    "https://files.catbox.moe/jqaw5z.mp4",
+
+
+)
 val YogaPoseName = arrayListOf(
     "Tadasana",
     "Vrikshasana",
@@ -65,23 +73,6 @@ val YogaPoseName = arrayListOf(
 )
 
 /*
-yoga Steps  {
-
-https://youtu.be/CTrRX7DcBSA?si=_7MkZdh4Sr3lumXN
-https://youtu.be/Dic293YNJI8?si=qn0qy-AZxvRToqt1
-https://youtu.be/kkGY3xBnaGc?si=QoxmjQZBQmPrIF2G
-https://youtu.be/cUBf7jNpZW0?si=rzUhi9lT19pW4k96
-https://youtu.be/2HJvzYzjaP0?si=DXPvRI6KcJnt7yRY
-https://youtu.be/cL7n4_y_PHo?si=WfNonKRMRlsFP4CE
-https://youtu.be/4P2mYcOGxbU?si=a5OCufSCQrfHZ-zA
-https://youtu.be/zOZumZ_lD1c?si=HvmgcsZ4PFr7_zbV
-https://youtu.be/k1eqBkQQP3g?si=YF0y6N1Yt2zzYtCF
-https://youtu.be/g78vfuC4QBI?si=bS_ZiA8zj0W_vJtp
-https://youtu.be/6Ep5VzGqDRU?si=DDbiS4Fyn4XkubQt
-https://youtu.be/cy-OAwcjXzc?si=sqPC_n18o0YTQurY
-https://youtu.be/T8sgVyF4Ux4?si=sx5sMbU52rRyfk9N
-
-}
 
 mudra Steps {
 
@@ -97,22 +88,5 @@ https://youtu.be/gy7mHwp8dTQ?si=UdKHa2RDRgaraVrK
 }
 
 pranayam steps {
-}
- */
-
-
-/*yoga videos {
-https://files.catbox.moe/8igzhh.mp4
-https://files.catbox.moe/iojw87.mp4
-https://files.catbox.moe/jxqebt.mp4
-https://files.catbox.moe/jzfvmd.mp4
-https://files.catbox.moe/q7mjh3.mp4
-https://files.catbox.moe/3hmjjo.mp4
-https://files.catbox.moe/c3ehoq.mp4
-https://files.catbox.moe/84uh4f.mp4
-https://files.catbox.moe/sm83i7.mp4
-https://files.catbox.moe/igteb7.mp4
-https://files.catbox.moe/3hmjjo.mp4
-https://files.catbox.moe/f6jk8a.mp4
 }
  */
