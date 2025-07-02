@@ -51,3 +51,39 @@ val YogaPoseName = arrayListOf(
     "Chakrasana",
     "paschimottanasana"
 )
+
+/*
+yoga Steps  {
+
+https://youtu.be/CTrRX7DcBSA?si=_7MkZdh4Sr3lumXN
+https://youtu.be/Dic293YNJI8?si=qn0qy-AZxvRToqt1
+https://youtu.be/kkGY3xBnaGc?si=QoxmjQZBQmPrIF2G
+https://youtu.be/cUBf7jNpZW0?si=rzUhi9lT19pW4k96
+https://youtu.be/2HJvzYzjaP0?si=DXPvRI6KcJnt7yRY
+https://youtu.be/cL7n4_y_PHo?si=WfNonKRMRlsFP4CE
+https://youtu.be/4P2mYcOGxbU?si=a5OCufSCQrfHZ-zA
+https://youtu.be/zOZumZ_lD1c?si=HvmgcsZ4PFr7_zbV
+https://youtu.be/k1eqBkQQP3g?si=YF0y6N1Yt2zzYtCF
+https://youtu.be/g78vfuC4QBI?si=bS_ZiA8zj0W_vJtp
+https://youtu.be/6Ep5VzGqDRU?si=DDbiS4Fyn4XkubQt
+https://youtu.be/cy-OAwcjXzc?si=sqPC_n18o0YTQurY
+https://youtu.be/T8sgVyF4Ux4?si=sx5sMbU52rRyfk9N
+
+}
+
+mudra Steps {
+
+https://youtu.be/oF_jN9lmN70?si=8UwZqFMDpqIV2wrC
+https://youtu.be/CJIG1i7pxu0?si=eO8Imo3KX-7rVkt-
+https://youtu.be/0sfR5ZwoDa4?si=n60gwANRRr9zHsfM
+https://youtu.be/opHcBYC3BVk?si=9YWNZgs6RPqINqeB
+https://youtu.be/JhZavw1J1HU?si=8OvrABwJO4zDpT2A
+https://youtu.be/p6jv0DUJu9k?si=HiQwTpptVOv3jixi
+https://youtu.be/fGnrwrgB9P4?si=w9tOtefpfUpAoaVy
+https://youtu.be/gy7mHwp8dTQ?si=UdKHa2RDRgaraVrK
+
+}
+
+pranayam steps {
+}
+ */

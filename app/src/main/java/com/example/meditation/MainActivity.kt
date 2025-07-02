@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -68,7 +69,6 @@ import androidx.media3.ui.PlayerView
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.meditation.ui.theme.customAppFontFamily
-import kotlin.system.exitProcess
 import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
     var name: String by mutableStateOf("")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             Box(
                 modifier = Modifier
@@ -177,6 +178,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MyHomepage() {
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -191,14 +194,14 @@ class MainActivity : ComponentActivity() {
             )
             Button(
                 onClick = {
-                    var intent = Intent(this@MainActivity, Meditation::class.java)
+                    val intent = Intent(this@MainActivity, Meditation::class.java)
                     startActivity(intent)
                     finish()
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 110.dp)
-                    .width(380.dp)
+                    .padding(bottom = screenHeight * .12f)
+                    .width(350.dp)
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 border = BorderStroke(2.dp, color = Color.White)
@@ -226,8 +229,8 @@ class MainActivity : ComponentActivity() {
                     fontSize = 35.sp, color = Color.White,
                     fontFamily = customAppFontFamily,
                     modifier = Modifier.padding(
-                        start = screenWidth * .35f,
-                        top = screenHeight * .02f
+                        start = screenWidth * .4f,
+                        top = screenHeight * .032f
                     )
                 )
                 Text(
@@ -471,8 +474,8 @@ class MainActivity : ComponentActivity() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = screenHeight * .001f, end = screenHeight * .17f)
-                        .height(screenHeight * .25f),
+                        .padding(start = screenHeight * .006f, end = screenHeight * .12f)
+                        .height(screenHeight * .29f),
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
                 ) {
                     Row {
@@ -498,7 +501,7 @@ class MainActivity : ComponentActivity() {
                                 text = "Total Minutes",
                                 fontSize = 20.sp,
                                 color = Color.Gray,
-                                modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+                                modifier = Modifier.padding(start = 0.dp, end = 20.dp)
                             )
                             Text(
                                 "$totaltime",
