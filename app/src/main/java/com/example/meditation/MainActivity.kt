@@ -469,7 +469,7 @@ class MainActivity : ComponentActivity() {
             item {
                 Text(
                     text = "My Stats",
-                    fontSize = 20.sp, fontFamily = customAppFontFamily,
+                    fontSize = 23.sp, fontFamily = customAppFontFamily,
                     color = Color.White,
                     modifier = Modifier.padding(start = 12.dp)
                 )
@@ -520,7 +520,13 @@ class MainActivity : ComponentActivity() {
                 }
             }//secondColumn
             item {
-                Box(modifier = Modifier.padding(top =  10.dp)) {
+                Text(
+                    text = "My Graph",
+                    fontSize = 23.sp, fontFamily = customAppFontFamily,
+                    color = Color.White,
+                    modifier = Modifier.padding(start = 12.dp, top = 15.dp)
+                )
+                Box(modifier = Modifier.padding(top =  5.dp)) {
                     BarChart()
                 }
             }

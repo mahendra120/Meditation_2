@@ -61,7 +61,7 @@ fun BarChart() {
             .fillMaxWidth()
             .height(300.dp)
             .background(color = Color.Black)
-            .padding(15.dp)
+            .padding(start = 0.dp,15.dp)
     ) {
         val canvasHeight = size.height
         val canvasWidth = size.width
