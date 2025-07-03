@@ -477,8 +477,8 @@ class MainActivity : ComponentActivity() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = screenHeight * .006f, end = screenHeight * .12f)
-                        .height(screenHeight * .29f),
+                        .padding(start = screenHeight * .006f, end = screenHeight * .13f)
+                        .height(screenHeight * .26f),
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(.1f))
                 ) {
                     Row {
@@ -499,7 +499,7 @@ class MainActivity : ComponentActivity() {
                                     top = 8.dp
                                 )
                             )
-                            Spacer(modifier = Modifier.padding(top = screenHeight * .03f))
+                            Spacer(modifier = Modifier.padding(top = screenHeight * .04f))
                             Text(
                                 text = "Total Minutes",
                                 fontSize = 20.sp,
@@ -519,6 +519,11 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }//secondColumn
+            item {
+                Box(modifier = Modifier.padding(top =  10.dp)) {
+                    BarChart()
+                }
+            }
         }
     }
 }
