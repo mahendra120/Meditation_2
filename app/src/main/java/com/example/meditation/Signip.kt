@@ -51,7 +51,6 @@ class signip : ComponentActivity() {
     fun Mybackpage() {
         val configuration = LocalConfiguration.current
         val screenHeight = configuration.screenHeightDp.dp
-        val screenWidth = configuration.screenWidthDp.dp
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,7 +69,7 @@ class signip : ComponentActivity() {
             ) {
                 Button(
                     onClick = {
-                        var intent = Intent(this@signip, MainActivity::class.java)
+                        val intent = Intent(this@signip, MainActivity::class.java)
                         startActivity(intent)
                     },
                     modifier = Modifier
@@ -99,7 +98,7 @@ class signip : ComponentActivity() {
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
                     onClick = {
-                        var intent = Intent(this@signip, MainActivity::class.java)
+                        val intent = Intent(this@signip, MainActivity::class.java)
                         startActivity(intent)
                     },
                     modifier = Modifier
@@ -127,7 +126,7 @@ class signip : ComponentActivity() {
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
                     onClick = {
-                        var intent = Intent(this@signip, MainActivity::class.java)
+                        val intent = Intent(this@signip, MainActivity::class.java)
                         startActivity(intent)
                     },
                     modifier = Modifier

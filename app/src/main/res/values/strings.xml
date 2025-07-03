@@ -7,4 +7,5 @@
     <string name="title_activity_yogacard">Yogacard</string>
     <string name="title_activity_strek_page">StrekPage</string>
     <string name="title_activity_update_profile">UpdateProfile</string>
+    <string name="title_activity_bar_chart">Bar_Chart</string>
 </resources>
